@@ -10,7 +10,6 @@ import java.io.Serializable;
 public class MagnetObject implements Serializable
 {
     static final long serialVersionUID = 1L;
-    //private MagnetDataType t;
     private int id;
     private char letter;
     private int x;
@@ -24,7 +23,6 @@ public class MagnetObject implements Serializable
      */
     public MagnetObject(int id, int x, int y)
     {
-        //this.t = MagnetDataType.MOVEMENT;
         this.id = id;
         this.x = x;
         this.y = y;
@@ -39,7 +37,6 @@ public class MagnetObject implements Serializable
      */
     public MagnetObject(int id, int x, int y, char letter)
     {
-        //this.t = MagnetDataType.SETUP;
         this.id = id;
         this.x = x;
         this.y = y;
@@ -51,19 +48,8 @@ public class MagnetObject implements Serializable
      */
     public MagnetObject()
     {
-        //this.t = MagnetDataType.SHUTDOWN;
-    }
 
-    /**
-     * 
-     * @return
-     */
-    /*
-    public MagnetDataType getType()
-    {
-        return this.t;
     }
-    */
     
     /**
      * 

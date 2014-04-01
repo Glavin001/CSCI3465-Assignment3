@@ -13,16 +13,37 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class Fridge
 {
+    /**
+     * Open connections.
+     */
     private ArrayList<Connection> connections;
+    /**
+     * All magnets.
+     */
     private ArrayList<MagnetObject> magnets;
+    /**
+     * Socket Server.
+     */
     private ServerSocket serverSocket;
+    /**
+     * Socket.
+     */
     private Socket socket;
-    private final ReentrantLock sendLock = new ReentrantLock();
-    private final double FRAMESIZE = 200;
+    /**
+     * Reusable lock.
+     */
+    private final ReentrantLock LOCK = new ReentrantLock();
+    /**
+     * Size of Fridge frame.
+     */
+    private final double FRAMESIZE = 400;
+    /**
+     * Number of magnets to create.
+     */
     private final int MAGNETSCOUNT = 20;
 
     /**
-     * 
+     * Constructor
      */
     public Fridge()
     {
@@ -30,8 +51,11 @@ public class Fridge
         this.magnets = new ArrayList<MagnetObject>();
     }
 
+    
     /**
-     * 
+     * Start socket server listening for clients.
+     *
+     * @param port  The port to listen to.
      */
     public void listen(final int port)
     {
@@ -44,13 +68,16 @@ public class Fridge
                 Random r = new Random();
                 char c = (char) (r.nextInt(26) + 'a');
                 // 
-                MagnetObject m = new MagnetObject(i, new Double(Math.random() * FRAMESIZE).intValue(), 
-                        new Double(Math.random() * FRAMESIZE).intValue(), c);
+                MagnetObject m = new MagnetObject(
+                        i,
+                        (int) ((Double) Math.random() * FRAMESIZE),
+                        (int) ((Double) Math.random() * FRAMESIZE),
+                        c);
                 this.magnets.add(m);
             }
             this.serverSocket = new ServerSocket(port);
             System.out.println("Listening on port "+port+".");
-
+            
             // Listen for new connections
             while (true)
             {
@@ -64,48 +91,46 @@ public class Fridge
         catch (Exception e)
         {
             e.printStackTrace();
-            System.exit(-1);
+            System.exit(1);
         }
     }
 
     /**
-     * 
-     * @param message
+     * Updates the respective Magnet and emits to other connections.
+     * @param magnet
      */
-    public void sendMessages(MagnetObject message)
+    public void sendMagnet(MagnetObject magnet)
     {
-        this.sendLock.lock();
+        // Lock: Only send one at a time.
+        this.LOCK.lock();
         // 
-        ((MagnetObject) this.magnets.get(message.getId())).updatePosition(message.getPosX(), message.getPosY());
+        ((MagnetObject) this.magnets.get(magnet.getId())).updatePosition(magnet.getPosX(), magnet.getPosY());
         try
         {
             // 
             for (Connection conn : this.connections) {
-                conn.sendMessage(message);
+                conn.sendMagnet(magnet);
             }
-        }
-        catch (Exception localException)
-        {
-
         }
         finally
         {
-            this.sendLock.unlock();
+            // Unlock: now can send others.
+            this.LOCK.unlock();
         }
     }
 
     /**
-     * 
-     * @param c
+     * Remove connection from list of active connections.
+     * @param conn The connection to remove.
      */
-    public void disconnect(Connection c)
+    public void disconnect(Connection conn)
     {
-        this.connections.remove(c);
+        this.connections.remove(conn);
     }
 
     /**
-     * 
-     * @return
+     * Get array of magnets.
+     * @return All magnets.
      */
     public ArrayList<MagnetObject> getMagnets()
     {
@@ -113,8 +138,8 @@ public class Fridge
     }
 
     /**
-     * 
-     * @param arg
+     * Start the Application.
+     * @param arg   Command-line arguments.
      */
     public static void main(String[] arg)
     {

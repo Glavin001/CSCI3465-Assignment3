@@ -13,16 +13,47 @@ import javax.swing.JLabel;
  */
 class FridgeMagnet extends JLabel implements MouseMotionListener, MouseListener
 {
-    static final int LETTERSIZE = 15;
-    private Kid client;
-    private boolean ignoreMove = true;
-    private boolean selected = false;
-    private int offsetY;
-    private int offsetX;
-    private int y;
-    private int x;
-    private int id;
+
+    /**
+     * For serializing.
+     */
     static final long serialVersionUID = 1L;
+    /**
+     * Size of the label's bounds.
+     */
+    private int size = 15;
+    /**
+     * 
+     */
+    private Kid client;
+    /**
+     * 
+     */
+    private boolean ignoreMove = true;
+    /**
+     * 
+     */
+    private boolean selected = false;
+    /**
+     * 
+     */
+    private int offsetY;
+    /**
+     * 
+     */
+    private int offsetX;
+    /**
+     * 
+     */
+    private int y;
+    /**
+     * 
+     */
+    private int x;
+    /**
+     * 
+     */
+    private int id;
 
     /**
      * 
@@ -41,27 +72,34 @@ class FridgeMagnet extends JLabel implements MouseMotionListener, MouseListener
         this.client = client;
         this.id = id;
 
-        setBounds(x, y, 15, 15);
-
+        setBounds(x, y, size, size);
         addMouseMotionListener(this);
         addMouseListener(this);
     }
 
     /**
-     * 
+     * Tests if position touches the label's bounds.
+     * @param x
+     * @param y
+     * @return
      */
-    public boolean contains(int x, int y)
+    public boolean touches(int x, int y)
     {
-        if ((x <= 15) && (x >= 0) && (y <= 15) && (y >= 0)) {
+        if (
+                (x <= size) 
+                && (x >= 0) 
+                && (y <= size) 
+                && (y >= 0)
+                ) {
             return true;
         }
         return false;
     }
 
     /**
-     * 
-     * @param newX
-     * @param newY
+     * Update position of Magnet.
+     * @param newX  New X position.
+     * @param newY  New Y position.
      */
     public void updatePosition(int newX, int newY)
     {
@@ -74,20 +112,20 @@ class FridgeMagnet extends JLabel implements MouseMotionListener, MouseListener
     }
 
     /**
-     * 
-     * @return
+     * Creates MagnetObject (serializable) of this FridgeMagnet.
+     * @return  MagnetObject (serializable) of this FridgeMagnet.
      */
     public MagnetObject serialize()
     {
         return new MagnetObject(this.id, this.x, this.y);
     }
-    
+
     /**
      * 
      */
     public void mousePressed(MouseEvent event)
     {
-        if (contains(event.getX(), event.getY()))
+        if (touches(event.getX(), event.getY()))
         {
             this.selected = true;
             this.offsetX = event.getX();
@@ -102,11 +140,11 @@ class FridgeMagnet extends JLabel implements MouseMotionListener, MouseListener
     /**
      * 
      */
-    public void mouseReleased(MouseEvent arg0)
+    public void mouseReleased(MouseEvent event)
     {
         if (this.selected)
         {
-            this.client.moveMagnet(new MagnetObject(this.id, this.x, this.y));
+            this.client.moveMagnet(this.serialize());
             this.selected = false;
         }
     }
@@ -114,11 +152,11 @@ class FridgeMagnet extends JLabel implements MouseMotionListener, MouseListener
     /**
      * 
      */
-    public void mouseDragged(MouseEvent arg0)
+    public void mouseDragged(MouseEvent event)
     {
         if (this.selected)
         {
-            updatePosition(this.x + arg0.getX() - this.offsetX, this.y + arg0.getY() - this.offsetY);
+            updatePosition(this.x + event.getX() - this.offsetX, this.y + event.getY() - this.offsetY);
             if (this.ignoreMove)
             {
                 this.ignoreMove = false;
@@ -133,27 +171,27 @@ class FridgeMagnet extends JLabel implements MouseMotionListener, MouseListener
     }
 
     @Override
-    public void mouseClicked(MouseEvent arg0) {
+    public void mouseClicked(MouseEvent event) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
-    public void mouseEntered(MouseEvent arg0) {
+    public void mouseEntered(MouseEvent event) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
-    public void mouseExited(MouseEvent arg0) {
+    public void mouseExited(MouseEvent event) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
-    public void mouseMoved(MouseEvent arg0) {
+    public void mouseMoved(MouseEvent event) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

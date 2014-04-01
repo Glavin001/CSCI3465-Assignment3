@@ -12,15 +12,41 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+/**
+ * 
+ * @author Glavin Wiechert
+ *
+ */
 public class Kid extends Thread
 {
+    /**
+     * 
+     */
     private JFrame jFrame = null;
+    /**
+     * 
+     */
     private JPanel content = null;
+    /**
+     * 
+     */
     Socket socket;
+    /**
+     * 
+     */
     ObjectInputStream input;
+    /**
+     * 
+     */
     ObjectOutputStream output;
+    /**
+     * 
+     */
     ArrayList<FridgeMagnet> magnets;
-    static final int WINDOWSIZE = 500;
+    /**
+     * 
+     */
+    private final int FRAMESIZE = 400;
 
     /**
      * 
@@ -67,8 +93,7 @@ public class Kid extends Thread
         {
             this.jFrame = new JFrame();
             this.jFrame.setDefaultCloseOperation(3);
-            this.jFrame.setSize(500, 500);
-            this.jFrame.setLocation(400, 200);
+            this.jFrame.setSize(FRAMESIZE, FRAMESIZE);
             this.jFrame.setTitle("Fridge Magnet");
             this.jFrame.addWindowListener(new WindowAdapter()
             {
@@ -102,7 +127,6 @@ public class Kid extends Thread
             try
             {
                 MagnetObject m = (MagnetObject) this.input.readObject();
-                System.out.println(m);
                 // Check if Magnet exists
                 if (this.magnets.size() > m.getId())
                 {
