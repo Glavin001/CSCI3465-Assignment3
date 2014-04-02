@@ -1,11 +1,28 @@
 [CSCI3465-Assignment3](https://github.com/Glavin001/CSCI3465-Assignment3/)
 ====================
 
-> Develop one (or more) versions of the "fridge magnet" client/server application.
+> Develop the "fridge magnet" client/server application.
 
-## Assignment
+### Download
 
-See http://cs.smu.ca/~jdeveaux/csci/3465/2014/assign3.html
+Please see the [Releases](https://github.com/Glavin001/CSCI3465-Assignment3/releases) for precompiled builds.
+
+
+## Grading
+
+See assignment at http://cs.smu.ca/~jdeveaux/csci/3465/2014/assign3.html
+
+### Features
+
+- [&#x2713;] Fridge (server) contains letters placed randomly on the "door".
+- [&#x2713;] Real-time syncing between all Kids (clients) observing the Fridge (server).
+- [&#x2713;] When a kid (client) leaves (disconnects from) the fridge (server), the fridge gracefully removes that client's connection.
+- [&#x2713;] Client/Server style as a variation of the Observer pattern as demonstrated in the ChatClient/ChatServer programs.
+- [&#x2713;] Must implement this application using Sockets to establish the client/server connection.
+- [&#x2713;] Include your name in the corner of your frame.
+- [&#x2713;] Detailed instructions on how to get the client and server to communicate to each other.
+
+### Full Details
 
 > Develop one (or more) versions of the "fridge magnet" client/server application.
 Your fridge (server) contains letters placed randomly on the door.
