@@ -3,6 +3,8 @@
 
 > Develop the "fridge magnet" client/server application.
 
+![screenshot](Screenshots/screenshot.png)
+
 ## Download
 
 Please see the [Releases](https://github.com/Glavin001/CSCI3465-Assignment3/releases) for precompiled builds.
