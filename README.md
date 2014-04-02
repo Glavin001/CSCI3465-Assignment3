@@ -3,7 +3,7 @@
 
 > Develop the "fridge magnet" client/server application.
 
-### Download
+## Download
 
 Please see the [Releases](https://github.com/Glavin001/CSCI3465-Assignment3/releases) for precompiled builds.
 
@@ -20,7 +20,7 @@ See assignment at http://cs.smu.ca/~jdeveaux/csci/3465/2014/assign3.html
 - [&#x2713;] Client/Server style as a variation of the Observer pattern as demonstrated in the ChatClient/ChatServer programs.
 - [&#x2713;] Must implement this application using Sockets to establish the client/server connection.
 - [&#x2713;] Include your name in the corner of your frame.
-- [&#x2713;] Detailed instructions on how to get the client and server to communicate to each other.
+- [&#x2713;] [Detailed instructions on how to get the client and server to communicate to each other. See documentation below.](https://github.com/Glavin001/CSCI3465-Assignment3#usage-instructions)
 
 ### Full Details
 
@@ -48,18 +48,67 @@ Bonus marks will be awarded for including a version where the client and server 
 
 ## Documentation
 
-## JavaDoc 
+### JavaDoc 
 
 See http://glavin001.github.io/CSCI3465-Assignment3/Assignment3/doc/
 
-## Usage Instructions
+### Usage Instructions
 
-### Same Machine
+#### Server [CLI](http://en.wikipedia.org/wiki/Command-line_interface) (Fridge)
+
+```bash
+java -jar FridgeServer.jar <port>
+```
+
+##### Optional Arguments
+
+- `port` - Default is `6666`.
+
+##### Basic Example Usage
+
+Open and execute the `FridgeServer.jar` file or run the following command:
+
+```bash
+java -jar FridgeServer.jar
+```
+
+##### Advanced Example Usage
+
+```bash
+java -jar FridgeServer.jar 6666
+```
+
+#### Client [CLI](http://en.wikipedia.org/wiki/Command-line_interface) (Kid)
+
+```bash
+java -jar KidClient.jar <hostname> <port>
+```
+
+##### Optional Arguments
+
+- `hostname` - Default is "`localhost`".
+- `port` - Default is `6666`.
+
+##### Basic Example Usage
+
+Open and execute the `KidClient.jar` file or run the following command:
+
+```bash
+java -jar KidClient.jar
+```
+
+##### Advanced Example Usage
+
+```bash
+java -jar KidClient.jar localhost 6666
+```
+
+#### Same Machine
 
 1. Start the Fridge (Server) .jar executible.
 2. Start the Kid (Client) .jar executible.
 3. Repeat step 2 for as many clients as desired.
 
-### Separate Machines
+#### Separate Machines
 
-Coming soon.
+
