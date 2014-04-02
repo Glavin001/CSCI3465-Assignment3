@@ -88,6 +88,8 @@ java -jar KidClient.jar <hostname> <port>
 
 ##### Optional Arguments
 
+Note that both arguments must be used or they will not be applied.
+
 - `hostname` - Default is "`localhost`".
 - `port` - Default is `6666`.
 
@@ -107,10 +109,23 @@ java -jar KidClient.jar localhost 6666
 
 #### Same Machine
 
-1. Start the Fridge (Server) .jar executible.
-2. Start the Kid (Client) .jar executible.
-3. Repeat step 2 for as many clients as desired.
+Using defaults: **Hostname** = "`localhost`", **Port** = `6666`
+
+1) [Start the Fridge (Server) .jar executible.](https://github.com/Glavin001/CSCI3465-Assignment3#basic-example-usage)
+
+2) [Start the Kid (Client) .jar executible.](https://github.com/Glavin001/CSCI3465-Assignment3#basic-example-usage-1)
+
+3) Repeat step 2 for as many clients as desired.
 
 #### Separate Machines
 
+The important change is that you now must specify a different IP address (and possibly port number) for your Client (Kid) to lookup the Server (Fridge).
+
+1) [Start the Fridge (Server) .jar executible](https://github.com/Glavin001/CSCI3465-Assignment3#advanced-example-usage). 
+Take note of the Server's IP address. 
+See [How to Find Your Local and External IP Address](http://lifehacker.com/5833108/how-to-find-your-local-and-external-ip-address/all).
+
+2) [Start the Kid (Client) .jar executible with the command-line arguments for the hostname (Server's IP) and port used when starting the server above.](https://github.com/Glavin001/CSCI3465-Assignment3#advanced-example-usage-1)
+
+3) Repeat step 2 for as many clients as desired.
 
