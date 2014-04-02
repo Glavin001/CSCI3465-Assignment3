@@ -6,26 +6,26 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /**
- * 
+ * Socket connection from Client to Server.
  * @author Glavin Wiechert
  *
  */
 class Connection extends Thread
 {
     /**
-     * 
+     * Socket connection.
      */
     private Socket socket;
     /**
-     * 
+     * Input stream.
      */
     private ObjectInputStream input;
     /**
-     * 
+     * Output stream.
      */
     private ObjectOutputStream output;
     /**
-     * 
+     * Fridge server.
      */
     private Fridge fridge;
 
@@ -61,6 +61,7 @@ class Connection extends Thread
         while (isRunning) {
             try
             {
+                // Get the message data (MagnetObject)
                 MagnetObject m = (MagnetObject) this.input.readObject();
                 // Check if client (Kid) has disconnected
                 if (m == null)
@@ -71,11 +72,12 @@ class Connection extends Thread
                     // Stop running this Connection loop.
                     isRunning = false;
                 }
-                //System.out.println(m);
-                // 
+                // Emit the magnet data to the Fridge
                 this.fridge.sendMagnet(m);
             }
-            catch (Exception localException) {}
+            catch (Exception localException) {
+                
+            }
         }
     }
 
@@ -87,6 +89,7 @@ class Connection extends Thread
     {
         try
         {
+            // Emit the magnet to the output stream.
             this.output.writeObject(magnet);
         }
         catch (IOException e)

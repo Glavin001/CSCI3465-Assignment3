@@ -7,7 +7,7 @@ import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * 
+ * The Server.
  * @author Glavin Wiechert
  *
  */
@@ -107,7 +107,7 @@ public class Fridge
         ((MagnetObject) this.magnets.get(magnet.getId())).updatePosition(magnet.getPosX(), magnet.getPosY());
         try
         {
-            // 
+            // Emit Magnet to all connections
             for (Connection conn : this.connections) {
                 conn.sendMagnet(magnet);
             }
@@ -139,11 +139,20 @@ public class Fridge
 
     /**
      * Start the Application.
-     * @param arg   Command-line arguments.
+     * @param args   Command-line arguments.
      */
-    public static void main(String[] arg)
+    public static void main(String[] args)
     {
         Fridge m = new Fridge();
-        m.listen(6666);
+        if (args.length == 1)
+        {
+            // Use arg
+            m.listen(Integer.parseInt(args[0]));
+        }
+        else
+        {
+            // Default
+            m.listen(6666);
+        }
     }
 }

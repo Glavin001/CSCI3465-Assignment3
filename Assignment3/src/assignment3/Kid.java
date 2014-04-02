@@ -1,5 +1,6 @@
 package assignment3;
 
+import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -9,11 +10,12 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 /**
- * 
+ * The Client GUI.
  * @author Glavin Wiechert
  *
  */
@@ -22,34 +24,36 @@ public class Kid extends Thread
     /**
      * 
      */
-    private JFrame jFrame = null;
+    private JFrame frame = null;
     /**
      * 
      */
     private JPanel content = null;
     /**
-     * 
+     * Socket connection.
      */
     Socket socket;
     /**
-     * 
+     * Input stream.
      */
     ObjectInputStream input;
     /**
-     * 
+     * Output stream.
      */
     ObjectOutputStream output;
     /**
-     * 
+     * Array of Magnets on the Fridge door.
      */
     ArrayList<FridgeMagnet> magnets;
     /**
-     * 
+     * Size of the frame.
      */
     private final int FRAMESIZE = 400;
 
     /**
-     * 
+     * Constructor
+     * @param hostname
+     * @param port
      */
     public Kid(final String hostname, final int port)
     {
@@ -73,52 +77,62 @@ public class Kid extends Thread
     }
 
     /**
-     * 
+     * Add a new magnet.
      * @param m
      */
     public void addMagnet(FridgeMagnet m)
     {
         this.magnets.add(m);
         this.content.add(m);
-        this.jFrame.repaint();
+        this.frame.repaint();
     }
 
     /**
-     * 
-     * @return
+     * Get the frame; create if not already initialized.
+     * @return  The initialized frame.
      */
-    public JFrame getJFrame()
+    public JFrame getFrame()
     {
-        if (this.jFrame == null)
+        // Check if there already is a frame
+        if (this.frame == null)
         {
-            this.jFrame = new JFrame();
-            this.jFrame.setDefaultCloseOperation(3);
-            this.jFrame.setSize(FRAMESIZE, FRAMESIZE);
-            this.jFrame.setTitle("Fridge Magnet");
-            this.jFrame.addWindowListener(new WindowAdapter()
+            // Frame has not been initialized
+            this.frame = new JFrame();
+            this.frame.setDefaultCloseOperation(3);
+            this.frame.setTitle("Fridge Magnet");
+            this.frame.setSize(FRAMESIZE, FRAMESIZE);
+            
+            this.content = new JPanel();
+            this.content.setLayout(null);
+            this.frame.add(this.content);
+            this.content.setSize(FRAMESIZE, FRAMESIZE);
+
+            JLabel nameLabel = new JLabel("Glavin Wiechert");
+            nameLabel.setBounds(10,10, 100, 20);
+            this.content.add(nameLabel);
+
+            // Emit on close event
+            this.frame.addWindowListener(new WindowAdapter()
             {
                 public void windowClosing(WindowEvent e)
                 {
                     try
                     {	
-                        //Kid.this.out.writeObject(new MagnetObject());
                         output.writeObject(null);
                     }
-                    catch (IOException e1)
+                    catch (IOException err)
                     {
-                        e1.printStackTrace();
+                        err.printStackTrace();
                     }
                 }
             });
-            this.content = new JPanel();
-            this.content.setLayout(null);
-            this.jFrame.add(this.content);
+            
         }
-        return this.jFrame;
+        return this.frame;
     }
     
     /**
-     * 
+     * Run loop
      */
     public void run()
     {
@@ -130,7 +144,6 @@ public class Kid extends Thread
                 // Check if Magnet exists
                 if (this.magnets.size() > m.getId())
                 {
-                    System.out.println("Updated");
                     // Already exists
                     FridgeMagnet t = ((FridgeMagnet) this.magnets.get(m.getId()));
                     // Update it
@@ -140,7 +153,6 @@ public class Kid extends Thread
                 {
                     // Does not exist
                     // Create it
-                    System.out.println("Create");
                     addMagnet(new FridgeMagnet(m.getId(), m.getPosX(), m.getPosY(), m.getLetter(), this));
                 }
             }
@@ -156,7 +168,7 @@ public class Kid extends Thread
     }
 
     /**
-     * 
+     * Emit that a magnet 
      * @param moveData
      */
     public void moveMagnet(MagnetObject moveData)
@@ -172,18 +184,31 @@ public class Kid extends Thread
     }
 
     /**
-     * 
-     * @param arg
+     * Start the client.
+     * @param args
      */
-    public static void main(String[] arg)
-    {
+    public static void main(final String[] args)
+    {        
         SwingUtilities.invokeLater(new Runnable()
         {
             public void run()
             {
-                Kid application = new Kid("localhost", 6666);
-                application.getJFrame().setVisible(true);
-                application.start();
+                Kid client;
+                if (args.length == 2)
+                {
+                    String hostname = args[0];
+                    int port = Integer.parseInt(args[1]);
+                    
+                    // Use arguements
+                    client = new Kid(hostname, port);
+                }
+                else
+                {
+                    // Use Defaults
+                    client = new Kid("localhost", 6666);
+                }
+                client.getFrame().setVisible(true);
+                client.start();
             }
         });
     }
