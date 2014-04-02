@@ -23,6 +23,7 @@ See assignment at http://cs.smu.ca/~jdeveaux/csci/3465/2014/assign3.html
 - [&#x2713;] Must implement this application using Sockets to establish the client/server connection.
 - [&#x2713;] Include your name in the corner of your frame.
 - [&#x2713;] [Detailed instructions on how to get the client and server to communicate to each other. See documentation below.](https://github.com/Glavin001/CSCI3465-Assignment3#usage-instructions)
+- [&#x2713;] [Command-Line Interface for advanced customization.](https://github.com/Glavin001/CSCI3465-Assignment3#usage-instructions)
 
 ### Full Details
 
